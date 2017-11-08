@@ -11,33 +11,36 @@ export default class AgendaView extends React.Component {
     super(props);
     this.state = {
       items: {
-        '2017-09-22': [{text: 'test event'},{text: 'test event 2'}]
+        '2017-11-08': [{text: 'test event 1'},{text: 'test event 2'}]
       }
     };
   }
 
   componentDidMount() {
-    let propsDate = '2017-09-20'
-    let propsText = [{text: 'test event 21'}]
-    let propsObject = {propsDate: propsText}
-    console.log('props obj ---->', propsObject)
-    let stateObject = {...this.state.items} 
-    this.setState({ items: {...this.state.items, propsObject}})
-    // this.renderItem()
-    // console.log('state obj', stateObject)
-    // console.log('props obj', propsObject)
-    // console.log('new state', this.state)
+    console.log('date coming over', this.props.date)
+    console.log('text coming over', this.props.text)
+    const propsDate = this.props.date
+    const propsText = {text: this.props.text}
+    let addEventToState = () => {
+      let itemsToAdd = {};
+      for (let key in this.state.items) {
+        console.log('key --->', key)
+        if (key === propsDate) {
+          console.log('got here')
+          itemsToAdd[propsDate] = [...this.props.items[propsDate], propsText]
+        }
+        if (key !== propsDate) {
+          console.log('not there')
+        }
+      }
+      this.setState({
+        items: itemsToAdd
+      });
+    }
+    addEventToState()
   }
 
-  updateItems() {
-    let propsDate = '2017-09-20'
-    let propsText = [{text: 'test event 21'}]
-    let propsObject = {propsDate: propsText}
-    let stateObject = {...this.state.items} 
-    if (propsDate) {
-      this.setState({ items: {...this.state.items, propsObject}})
-    } 
-  }
+  
 
   logout() {
     console.log('logging out')
@@ -54,14 +57,6 @@ export default class AgendaView extends React.Component {
       }) 
   }
 
-  loadItems(day) {
-    const newItems = {};
-    Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key]})
-    this.setState({
-      items: newItems
-    });
-  }
-
   renderItem(item) {
     console.log('item', item)
     return (
@@ -69,6 +64,16 @@ export default class AgendaView extends React.Component {
          <Text>{item.text}</Text> 
       </View>
     );
+  }
+
+  loadItems(day) {
+    const newItems = {};
+    Object.keys(this.state.items).forEach(key => {
+      newItems[key] = this.state.items[key]
+    })
+    this.setState({
+      items: newItems
+    });
   }
 
   rowHasChanged(r1, r2) {

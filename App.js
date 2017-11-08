@@ -4,10 +4,6 @@ import * as firebase from 'firebase'
 import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Right, Title } from 'native-base'
 import Router from './Router'
 
-
-import Login from './components/login'
-import MonthView from './components/month-view'
-
 export default class App extends React.Component {
   componentWillMount() {
     firebase.initializeApp({
