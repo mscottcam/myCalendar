@@ -1,9 +1,9 @@
 import React from 'react';
-import {Text, View, StyleSheet, TextInput} from 'react-native';
+import { Text, View, StyleSheet, TextInput } from 'react-native';
 import * as firebase from 'firebase'
-import {Agenda} from 'react-native-calendars';
-import {Actions} from 'react-native-router-flux'
-import {Button} from 'native-base'
+import { Agenda } from 'react-native-calendars';
+import { Actions } from 'react-native-router-flux'
+import { Button } from 'native-base'
 
 
 export default class AgendaView extends React.Component {
@@ -17,8 +17,6 @@ export default class AgendaView extends React.Component {
   }
 
   componentDidMount() {
-    console.log('date coming over', this.props.date)
-    console.log('text coming over', this.props.text)
     const propsDate = this.props.date
     const propsText = {text: this.props.text}
     let addEventToState = () => {
@@ -27,7 +25,8 @@ export default class AgendaView extends React.Component {
         console.log('key --->', key)
         if (key === propsDate) {
           console.log('got here')
-          itemsToAdd[propsDate] = [...this.props.items[propsDate], propsText]
+          console.log('looking hur ---->', this.props.items[propsDate])
+          // itemsToAdd[propsDate] = [...this.props.items[propsDate], propsText]
         }
         if (key !== propsDate) {
           console.log('not there')
@@ -132,6 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     marginLeft: 'auto', 
     marginRight: 'auto', 
+    marginBottom: 2,
     height: 30
   }
   // emptyDate: {
