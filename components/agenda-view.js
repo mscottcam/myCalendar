@@ -22,24 +22,31 @@ export default class AgendaView extends React.Component {
     let addEventToState = () => {
       let itemsToAdd = {};
       for (let key in this.state.items) {
-        console.log('key --->', key)
+        console.log('key is there --->', key)
         if (key === propsDate) {
-          console.log('got here')
-          console.log('looking hur ---->', this.props.items[propsDate])
-          // itemsToAdd[propsDate] = [...this.props.items[propsDate], propsText]
+          this.setState({
+            ...this.state.items,
+            this.state.items[key]
+          })
         }
         if (key !== propsDate) {
           console.log('not there')
+          let propsObj = {};
+          propsObj[propsDate] = propsText;
+          this.setState({
+            ...this.state.items,
+            propsObj
+          })
         }
       }
       this.setState({
         items: itemsToAdd
       });
     }
-    addEventToState()
+    addEventToState();
   }
 
-  
+
 
   logout() {
     console.log('logging out')
@@ -53,14 +60,14 @@ export default class AgendaView extends React.Component {
       .catch(error => {
         console.error(error)
         alert(error)
-      }) 
+      })
   }
 
   renderItem(item) {
     console.log('item', item)
     return (
       <View style={[styles.item, {height: item.height}]}>
-         <Text>{item.text}</Text> 
+         <Text>{item.text}</Text>
       </View>
     );
   }
@@ -92,12 +99,12 @@ export default class AgendaView extends React.Component {
         </Button>
         <Agenda
           items={this.state.items}
-          loadItemsForMonth={this.loadItems.bind(this)} 
+          loadItemsForMonth={this.loadItems.bind(this)}
           selected={this.state.selected}
           renderItem={this.renderItem.bind(this)}
-          rowHasChanged={this.rowHasChanged.bind(this)} 
+          rowHasChanged={this.rowHasChanged.bind(this)}
         />
-      </View> 
+      </View>
 
     );
   }
@@ -127,10 +134,10 @@ const styles = StyleSheet.create({
     marginBottom: -200
   },
   button: {
-    width:200, 
-    justifyContent: 'center', 
-    marginLeft: 'auto', 
-    marginRight: 'auto', 
+    width:200,
+    justifyContent: 'center',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     marginBottom: 2,
     height: 30
   }
@@ -139,6 +146,4 @@ const styles = StyleSheet.create({
   //   flex:1,
   //   paddingTop: 30
   // }
-});          
-
- 
+});
