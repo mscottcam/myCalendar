@@ -11,12 +11,12 @@ const RouterComponent = () => {
   return (
     <Router>
       <Scene>
-        <Scene key="agendaView" component={AgendaView} title="Here is your life:" hideNavBar={false} renderRightButton={() => <Icon name='note-add' onPress={() => Actions.newEventForm()} />} />
         <Scene key="login" component={Login} title="Please Login!" />
+        <Scene key="agendaView" component={AgendaView} title="Here is your life:" hideNavBar={false} renderRightButton={() => <Icon name='note-add' onPress={() => Actions.newEventForm()} />} />
         <Scene key="signup" component={Signup} title="Sign Up!" />
         <Scene key="newEventForm" component={NewEventForm} title="New Event" />
       </Scene>
-    </Router> 
+    </Router>
   )
 }
 

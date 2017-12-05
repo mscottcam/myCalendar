@@ -21,13 +21,18 @@ export default class Signup extends React.Component {
       .auth()
       .createUserWithEmailAndPassword(email, pass)
       .then(response => {
-        console.log('signup response', response)
+        console.log('signup response id -------->', response.uid)
         this.setState({
           email: response.email,
           id: response.uid
         })
+        firebase.database().ref('users/' + response.uid).set({
+          email: response.email,
+          userId: response.uid,
+          items: {}
+        })
         //navigate here
-        Actions.agendaView()
+        Actions.agendaView({userId: response.uid, eamil: response.email})
       })
       .catch(error => {
         console.error(error)
@@ -71,15 +76,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   button: {
-    flex: 1, 
-    width: 300, 
+    flex: 1,
+    width: 300,
     justifyContent: 'center',
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 20
-  }, 
+  },
   text: {
     fontSize: 30
   }
 });
-

@@ -13,7 +13,7 @@ export default class Login extends React.Component {
       password: '',
       id: ''
     }
-    this.login=this.login.bind(this) 
+    this.login=this.login.bind(this)
   }
 
   login(email, pass) {
@@ -25,7 +25,6 @@ export default class Login extends React.Component {
           email: response.email,
           id: response.uid
         })
-        console.log('STATE ---- ', this.state)
         //navigate here
         Actions.agendaView()
       })
@@ -48,7 +47,7 @@ export default class Login extends React.Component {
             </Item>
           </Form>
           <Button style={styles.button} block onPress={() => this.login(this.state.email, this.state.password)} >
-             <Text>Sign In</Text> 
+             <Text>Sign In</Text>
           </Button>
           <Button style={styles.button} block onPress={() => Actions.signup()}>
             <Text>Need to Create an Account?</Text>
@@ -74,13 +73,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   button: {
-    flex: 1, 
-    width: 300, 
+    flex: 1,
+    width: 300,
     justifyContent: 'center',
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 10
-  }, 
+  },
   text: {
     fontSize: 30
   }

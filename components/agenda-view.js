@@ -5,6 +5,7 @@ import { Agenda } from 'react-native-calendars';
 import { Actions } from 'react-native-router-flux'
 import { Button } from 'native-base'
 
+// const database = firebase.database();
 
 export default class AgendaView extends React.Component {
   constructor(props) {
@@ -12,12 +13,29 @@ export default class AgendaView extends React.Component {
     this.state = {
       items: {
         '2017-11-08': [{text: 'test event 1'},{text: 'test event 2'}]
-      }
+      },
+      userId: '',
+      email: ''
     };
   }
 
   componentDidMount() {
-    console.log('FIREBASE ==>' , firebase.database)
+    const updateUserDates = (email, userId, items) => {
+      console.log('email', email);
+      console.log('userId', userId);
+      console.log('items', items);
+      firebase.database().ref('users/' + userId).set({
+        email: email,
+        userId: userId,
+        items: items
+      })
+    }
+    if (this.props.userId) {
+      this.setState({
+        userId: this.props.userId,
+        email: this.props.email
+      })
+    }
     const propsDate = this.props.date
     const propsText = {text: this.props.text}
     const addEventToState = () => {
@@ -45,6 +63,7 @@ export default class AgendaView extends React.Component {
     } else {
       addEventToState();
     }
+    updateUserDates(this.state.email, this.state.userId, this.state.items);
   }
 
   logout() {
@@ -139,9 +158,4 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     height: 30
   }
-  // emptyDate: {
-  //   height: 15,
-  //   flex:1,
-  //   paddingTop: 30
-  // }
 });
