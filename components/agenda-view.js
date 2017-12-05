@@ -17,36 +17,35 @@ export default class AgendaView extends React.Component {
   }
 
   componentDidMount() {
+    console.log('FIREBASE ==>' , firebase.database)
     const propsDate = this.props.date
     const propsText = {text: this.props.text}
-    let addEventToState = () => {
-      let itemsToAdd = {};
+    const addEventToState = () => {
       for (let key in this.state.items) {
-        console.log('key is there --->', key)
         if (key === propsDate) {
+          const oldDateNewArray = [...this.state.items[propsDate], propsText]
+          const oldDateNewObj = {};
+          oldDateNewObj[propsDate] = oldDateNewArray;
           this.setState({
-            ...this.state.items,
-            this.state.items[key]
+            items: Object.assign({}, this.state.items, oldDateNewObj)
           })
         }
         if (key !== propsDate) {
-          console.log('not there')
-          let propsObj = {};
-          propsObj[propsDate] = propsText;
+          const newDateNewArray = [propsText]
+          const newDateNewObj = {};
+          newDateNewObj[propsDate] = newDateNewArray;
           this.setState({
-            ...this.state.items,
-            propsObj
+            items: Object.assign({}, this.state.items, newDateNewObj)
           })
         }
       }
-      this.setState({
-        items: itemsToAdd
-      });
     }
-    addEventToState();
+    if (!this.props.text) {
+      return
+    } else {
+      addEventToState();
+    }
   }
-
-
 
   logout() {
     console.log('logging out')
@@ -64,7 +63,6 @@ export default class AgendaView extends React.Component {
   }
 
   renderItem(item) {
-    console.log('item', item)
     return (
       <View style={[styles.item, {height: item.height}]}>
          <Text>{item.text}</Text>
