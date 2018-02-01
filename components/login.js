@@ -28,7 +28,7 @@ export default class Login extends React.Component {
         })
       })
       .then(() => {
-        firebase.database().ref('users/').set({
+        firebase.database().ref('users/' + this.state.id).set({
           email: this.state.email,
           userId: this.state.id
         })
