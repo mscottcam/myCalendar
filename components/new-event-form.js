@@ -12,7 +12,7 @@ export default class NewEventForm extends React.Component {
       text: ''
     }
   }
-  
+
   render() {
     return (
       <View style={{paddingTop: 100}}>
@@ -20,8 +20,8 @@ export default class NewEventForm extends React.Component {
         <FormInput placeholder="date" onChangeText={ date => this.setState({date})} />
         <FormInput placeholder="event" onChangeText={ text => this.setState({text})} />
         {/* <Picker></Picker> */}
-         <Button style={styles.button} onPress={() => {
-           Actions.agendaView({date: this.state.date, text: this.state.text})
+        <Button style={styles.button} onPress={() => {
+          Actions.agendaView({newDate: this.state.date, newText: this.state.text})
            }} >
            <Text>Add Event</Text>
         </Button>
@@ -32,11 +32,11 @@ export default class NewEventForm extends React.Component {
 
 const styles = StyleSheet.create({
   button: {
-    width:200, 
+    width:200,
     justifyContent: 'center',
-    marginTop: 20, 
-    marginLeft: 'auto', 
-    marginRight: 'auto', 
+    marginTop: 20,
+    marginLeft: 'auto',
+    marginRight: 'auto',
     height: 30
   }
 });

@@ -32,7 +32,7 @@ export default class Signup extends React.Component {
           items: {}
         })
         //navigate here
-        Actions.agendaView({userId: response.uid, eamil: response.email})
+        Actions.agendaView({signUpUserId: response.uid, signUpEmail: response.email})
       })
       .catch(error => {
         console.error(error)

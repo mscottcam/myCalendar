@@ -26,7 +26,7 @@ export default class Login extends React.Component {
           id: response.uid
         })
         //navigate here
-        Actions.agendaView()
+        Actions.agendaView({loginEmail: this.state.email, loginId: this.state.id})
       })
       .catch(error => {
         console.log(error)

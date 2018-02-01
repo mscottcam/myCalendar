@@ -12,7 +12,7 @@ export default class AgendaView extends React.Component {
     super(props);
     this.state = {
       items: {
-        '2017-11-08': [{text: 'test event 1'},{text: 'test event 2'}]
+        '2018-01-30': [{text: 'test event 1'},{text: 'test event 2'}]
       },
       userId: '',
       email: ''
@@ -20,24 +20,28 @@ export default class AgendaView extends React.Component {
   }
 
   componentDidMount() {
+    console.log('here is login email -->', this.props.loginEmail);
+    console.log('here is login id', this.props.loginId);
+    console.log('here is the sign Up Email ', this.props.signUpEmail);
+    console.log('here is the signup user id', this.props.signUpUserId);
+    if (this.props.loginEmail !== undefined) {
+      this.setState({
+        userId: this.props.loginId,
+        email: this.props.loginEmail
+      })
+    }
     const updateUserDates = (email, userId, items) => {
-      console.log('email', email);
-      console.log('userId', userId);
-      console.log('items', items);
+      console.log('here is the email going with db call', email);
+      console.log('here is the id going with the db call', userId);
+      console.log('here are the items going with the db call', items);
       firebase.database().ref('users/' + userId).set({
         email: email,
         userId: userId,
         items: items
       })
     }
-    if (this.props.userId) {
-      this.setState({
-        userId: this.props.userId,
-        email: this.props.email
-      })
-    }
-    const propsDate = this.props.date
-    const propsText = {text: this.props.text}
+    const propsDate = this.props.newDate
+    const propsText = {text: this.props.newText}
     const addEventToState = () => {
       for (let key in this.state.items) {
         if (key === propsDate) {
@@ -58,7 +62,7 @@ export default class AgendaView extends React.Component {
         }
       }
     }
-    if (!this.props.text) {
+    if (!this.props.newText) {
       return
     } else {
       addEventToState();
@@ -112,7 +116,7 @@ export default class AgendaView extends React.Component {
     return (
       <View style={styles.container}>
         <Button style={styles.button} onPress={() => this.logout()} >
-            <Text>Logout?</Text>
+          <Text>Logout?</Text>
         </Button>
         <Agenda
           items={this.state.items}
