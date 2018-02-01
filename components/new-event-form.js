@@ -1,5 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, Picker } from 'react-native';
+import * as firebase from 'firebase'
+
 import { FormLabel, FormInput } from 'react-native-elements'
 import {Button} from 'native-base'
 import {Actions} from 'react-native-router-flux'
@@ -11,6 +13,10 @@ export default class NewEventForm extends React.Component {
       date: '',
       text: ''
     }
+  }
+
+  componentDidMount() {
+    console.log('new event user test --> ', firebase.auth().currentUser.uid)
   }
 
   render() {

@@ -1,8 +1,10 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import * as firebase from 'firebase'
+
 import { Container, Header, Content, Form, Item, Input, Button, Text } from 'native-base';
 import {Actions} from 'react-native-router-flux'
+
 import Signup from './signup'
 
 export default class Login extends React.Component {
@@ -10,29 +12,20 @@ export default class Login extends React.Component {
     super(props)
     this.state = {
       email: '',
-      password: '',
-      id: ''
+      password: ''
     }
-    this.login=this.login.bind(this)
   }
 
   login(email, pass) {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, pass)
-      .then(response => {
+      .then(() => {
         this.setState({
-          email: response.email,
-          id: response.uid,
+          email: '',
           password: ''
         })
-      })
-      .then(() => {
-        firebase.database().ref('users/' + this.state.id).set({
-          email: this.state.email,
-          userId: this.state.id
-        })
-        Actions.agendaView({loginEmail: this.state.email, loginId: this.state.id})
+        Actions.agendaView()
       })
       .catch(error => {
         console.log(error)

@@ -1,8 +1,15 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
 import * as firebase from 'firebase'
+
+import { Icon } from 'react-native-elements'
 import { Container, Header, Content, Form, Item, Input, Label, Left, Body, Right, Title } from 'native-base'
-import Router from './Router'
+import {Scene, Router, Actions} from 'react-native-router-flux'
+
+import Login from './components/login'
+import Signup from './components/signup'
+import NewEventForm from './components/new-event-form'
+import AgendaView from './components/agenda-view'
 
 export default class App extends React.Component {
   componentWillMount() {
@@ -11,14 +18,30 @@ export default class App extends React.Component {
       authDomain: "calendar-5f1ea.firebaseapp.com",
       databaseURL: "https://calendar-5f1ea.firebaseio.com",
       projectId: "calendar-5f1ea",
-      storageBucket: "calendar-5f1ea.appspot.com",
       messagingSenderId: "51447701809"
     })
   }
 
   render() {
     return (
-      <Router />
+      <Router>
+        <Scene>
+          <Scene
+            key="login"
+            component={Login}
+            title="Please Login!"
+          />
+          <Scene
+            key="agendaView"
+            component={AgendaView}
+            title="Here is your life:"
+            hideNavBar={false}
+            renderRightButton={() => <Icon name='note-add' onPress={() => Actions.newEventForm()} />}
+          />
+          <Scene key="signup" component={Signup} title="Sign Up!" />
+          <Scene key="newEventForm" component={NewEventForm} title="New Event" />
+        </Scene>
+      </Router>
     )
   }
 }

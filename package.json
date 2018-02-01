@@ -22,6 +22,7 @@
     "expo": "^22.0.2",
     "firebase": "^4.6.1",
     "native-base": "^2.3.3",
+    "re-base": "^3.2.2",
     "react": "16.0.0-beta.5",
     "react-native": "^0.49.5",
     "react-native-calendars": "^1.9.2",

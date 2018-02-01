@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, TextInput } from 'react-native';
 import * as firebase from 'firebase'
+
 import { Agenda } from 'react-native-calendars';
 import { Actions } from 'react-native-router-flux'
 import { Button } from 'native-base'
@@ -19,55 +20,51 @@ export default class AgendaView extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.setState({
+      userId: firebase.auth().currentUser.uid,
+      email: firebase.auth().currentUser.email
+    })
+  }
+
   componentDidMount() {
-    console.log('here is login email -->', this.props.loginEmail);
-    console.log('here is login id', this.props.loginId);
-    console.log('here is the sign Up Email ', this.props.signUpEmail);
-    console.log('here is the signup user id', this.props.signUpUserId);
-    if (this.props.loginEmail) {
-      this.setState({
-        userId: this.props.loginId,
-        email: this.props.loginEmail
-      })
-    }
-    const updateUserDates = (email, userId, items) => {
-      console.log('here is the email going with db call', email);
-      console.log('here is the id going with the db call', userId);
-      console.log('here are the items going with the db call', items);
-      firebase.database().ref('users/' + userId).set({
-        email: email,
-        userId: userId,
-        items: items
-      })
-    }
-    const propsDate = this.props.newDate
-    const propsText = {text: this.props.newText}
-    const addEventToState = () => {
-      for (let key in this.state.items) {
-        if (key === propsDate) {
-          const oldDateNewArray = [...this.state.items[propsDate], propsText]
-          const oldDateNewObj = {};
-          oldDateNewObj[propsDate] = oldDateNewArray;
-          this.setState({
-            items: Object.assign({}, this.state.items, oldDateNewObj)
-          })
-        }
-        if (key !== propsDate) {
-          const newDateNewArray = [propsText]
-          const newDateNewObj = {};
-          newDateNewObj[propsDate] = newDateNewArray;
-          this.setState({
-            items: Object.assign({}, this.state.items, newDateNewObj)
-          })
-        }
-      }
-    }
-    if (!this.props.newText) {
-      return
-    } else {
-      addEventToState();
-    }
-    updateUserDates(this.state.email, this.state.userId, this.state.items);
+    console.log('hello there =-=->', firebase.auth().currentUser.email)
+    // const propsDate = this.props.newDate
+    // const propsText = {text: this.props.newText}
+    // const addEventToState = () => {
+    //   for (let key in this.state.items) {
+    //     if (key === propsDate) {
+    //       const oldDateNewArray = [...this.state.items[propsDate], propsText]
+    //       const oldDateNewObj = {};
+    //       oldDateNewObj[propsDate] = oldDateNewArray;
+    //       this.setState({
+    //         items: Object.assign({}, this.state.items, oldDateNewObj)
+    //       })
+    //     }
+    //     if (key !== propsDate) {
+    //       const newDateNewArray = [propsText]
+    //       const newDateNewObj = {};
+    //       newDateNewObj[propsDate] = newDateNewArray;
+    //       this.setState({
+    //         items: Object.assign({}, this.state.items, newDateNewObj)
+    //       })
+    //     }
+    //   }
+    // }
+    // if (!this.props.newText) {
+    //   return
+    // } else {
+    //   addEventToState();
+    // }
+    // updateUserDates(this.state.email, this.state.userId, this.state.items);
+    // console.log('here it is -----> ', firebase.database().ref(`/users/${this.state.userId}/email`).once('value'));
+
+  }
+
+  updateUserDates(email, userId, items) {
+    firebase.database().ref('users/' + userId).set({
+      items: items
+    })
   }
 
   logout() {
