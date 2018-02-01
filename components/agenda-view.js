@@ -20,10 +20,7 @@ export default class AgendaView extends React.Component {
   }
 
   componentDidMount() {
-    console.log('here is login email -->', this.props.loginEmail);
-    console.log('here is login id', this.props.loginId);
-    console.log('here is the sign Up Email ', this.props.signUpEmail);
-    console.log('here is the signup user id', this.props.signUpUserId);
+    console.log('here it is', this.props.currentState)
     if (this.props.loginEmail !== undefined) {
       this.setState({
         userId: this.props.loginId,

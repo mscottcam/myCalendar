@@ -9,9 +9,8 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
-      id: ''
+      loginEmail: '',
+      loginPassword: ''
     }
     this.login=this.login.bind(this)
   }
@@ -22,11 +21,12 @@ export default class Login extends React.Component {
       .signInWithEmailAndPassword(email, pass)
       .then(response => {
         this.setState({
-          email: response.email,
-          id: response.uid
+          loginEmail: '',
+          loginPassword: ''
         })
-        //navigate here
-        Actions.agendaView({loginEmail: this.state.email, loginId: this.state.id})
+        this.props.updateState(response.email, response.uid)
+        Actions.agendaView()
+        // {loginEmail: this.state.email, loginId: this.state.id}
       })
       .catch(error => {
         console.log(error)
@@ -40,14 +40,26 @@ export default class Login extends React.Component {
         <Content>
           <Form>
             <Item floatingLable>
-              <Input placeholder="Email" onChangeText={ email => this.setState({email})} required/>
+              <Input
+                placeholder="Email"
+                onChangeText={ loginEmail => this.setState({loginEmail}) }
+                required
+              />
             </Item>
             <Item floatingLable last>
-              <Input placeholder="Password" onChangeText={ password => this.setState({password})}  required/>
+              <Input
+                placeholder="Password"
+                onChangeText={ loginPassword => this.setState({loginPassword}) }
+                required
+              />
             </Item>
           </Form>
-          <Button style={styles.button} block onPress={() => this.login(this.state.email, this.state.password)} >
-             <Text>Sign In</Text>
+          <Button
+            style={styles.button}
+            block
+            onPress={() => this.login(this.state.loginEmail, this.state.loginPassword)}
+          >
+            <Text>Sign In</Text>
           </Button>
           <Button style={styles.button} block onPress={() => Actions.signup()}>
             <Text>Need to Create an Account?</Text>
