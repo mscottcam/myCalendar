@@ -23,9 +23,15 @@ export default class Login extends React.Component {
       .then(response => {
         this.setState({
           email: response.email,
-          id: response.uid
+          id: response.uid,
+          password: ''
         })
-        //navigate here
+      })
+      .then(() => {
+        firebase.database().ref('users/').set({
+          email: this.state.email,
+          userId: this.state.id
+        })
         Actions.agendaView({loginEmail: this.state.email, loginId: this.state.id})
       })
       .catch(error => {
