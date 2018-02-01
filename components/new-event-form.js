@@ -16,7 +16,6 @@ export default class NewEventForm extends React.Component {
   }
 
   componentDidMount() {
-    console.log('new event user test --> ', firebase.auth().currentUser.uid)
   }
 
   render() {

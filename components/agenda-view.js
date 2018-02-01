@@ -14,54 +14,50 @@ export default class AgendaView extends React.Component {
     this.state = {
       items: {
         '2018-01-30': [{text: 'test event 1'},{text: 'test event 2'}]
-      },
-      userId: '',
-      email: ''
+      }
     };
   }
 
   componentWillMount() {
-    this.setState({
-      userId: firebase.auth().currentUser.uid,
-      email: firebase.auth().currentUser.email
-    })
-  }
 
-  componentDidMount() {
-    console.log('hello there =-=->', firebase.auth().currentUser.email)
-    // const propsDate = this.props.newDate
-    // const propsText = {text: this.props.newText}
-    // const addEventToState = () => {
-    //   for (let key in this.state.items) {
-    //     if (key === propsDate) {
-    //       const oldDateNewArray = [...this.state.items[propsDate], propsText]
-    //       const oldDateNewObj = {};
-    //       oldDateNewObj[propsDate] = oldDateNewArray;
-    //       this.setState({
-    //         items: Object.assign({}, this.state.items, oldDateNewObj)
-    //       })
-    //     }
-    //     if (key !== propsDate) {
-    //       const newDateNewArray = [propsText]
-    //       const newDateNewObj = {};
-    //       newDateNewObj[propsDate] = newDateNewArray;
-    //       this.setState({
-    //         items: Object.assign({}, this.state.items, newDateNewObj)
-    //       })
-    //     }
-    //   }
-    // }
+    const currentUserId = firebase.auth().currentUser.uid;
+    const currentUserEmail = firebase.auth().currentUser.email;
+
+
     // if (!this.props.newText) {
     //   return
     // } else {
-    //   addEventToState();
+    //   const propsDate = '2018-01-30';
+    //   // this.props.newDate
+    //   const propsText = {text: this.props.newText}
+    //   // this.addEventToState(propsDate, propsText);
     // }
-    // updateUserDates(this.state.email, this.state.userId, this.state.items);
-    // console.log('here it is -----> ', firebase.database().ref(`/users/${this.state.userId}/email`).once('value'));
-
+    this.updateUserDates(currentUserId, this.state.items);
+    console.log('items ---->', firebase.database().ref(`users/${currentUserId}/items`).once('value'))
   }
 
-  updateUserDates(email, userId, items) {
+  addEventToState(date, eventText) {
+    for (let key in this.state.items) {
+      if (key === date) {
+        const oldDateNewArray = [...this.state.items[date], eventText]
+        const oldDateNewObj = {};
+        oldDateNewObj[date] = oldDateNewArray;
+        this.setState({
+          items: Object.assign({}, this.state.items, oldDateNewObj)
+        })
+      }
+      if (key !== date) {
+        const newDateNewArray = [eventText]
+        const newDateNewObj = {};
+        newDateNewObj[date] = newDateNewArray;
+        this.setState({
+          items: Object.assign({}, this.state.items, newDateNewObj)
+        })
+      }
+    }
+  }
+
+  updateUserDates(userId, items) {
     firebase.database().ref('users/' + userId).set({
       items: items
     })
